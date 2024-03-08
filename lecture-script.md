@@ -193,6 +193,55 @@ Each neuron in this layer outputs a single number, resulting in the layer genera
 
 ***
 
+## Various applications of Siamese Network architecture
+
+<center><b>Phone face verification</b></center>
+
+<center><ins>Question</ins></center>
+We have trained the model in the Siamese Network architecture so that it would compare facial images with each other. We are implementing a phone login system. At the very beginning, the user is supposed to take a picture of their face. The phone is then supposed to take a picture of the user every time they try to unlock and assess whether they own the phone. How do we implement this?
+
+<details>
+  <summary>Answer</summary>
+
+  For each authorization, we have embeddings of two photos - one taken initially on the phone and the other of the user trying to use the phone. By comparing these two embeddings, we get a similarity score. We need to set a threshold, below which we consider that the person trying to use the phone is indeed its owner.
+  
+</details>
+
+<center><b>Gym customers face recognition</b></center>
+<center><ins>Question</ins></center>
+The gym has 20 clients who frequently lost their badges, asking the owner to adopt a facial recognition system to verify individuals' access. How can this be implemented? We can use the base model from the previous question.
+
+<details>
+  <summary>Answer</summary>
+
+  Do the same as for 'phone face verification', but sequentially for the photo database of all customers. If the customer is recognised, let them in depending on their active membership.
+  
+</details>
+
+<center><b>Best match between actor and historical role</b></center>
+<center><ins>Question</ins></center>
+A maker of a historical film has a photo database of twenty actors. He wants to find one that most resembles the historical figure (of whom he also has a photo). How do you accomplish this task using the architecture of the Siamese Network? We can use the model from the previous questions.
+<details>
+  <summary>Answer</summary>
+
+  We assign a 'similarity score' to each actor's photo relative to the historical figure photo. We sort the values in ascending order and select the actor with the lowest.
+  
+</details>
+
+<center><b>Large actors matching service</b></center>
+
+We are an agency with a database of 100,000 actors. We have a picture of every one of them. We provide the service of finding and hiring the actor most similar to the character from the graphic the client provides. How do you implement such a system? We can use the model from the previous questions.
+<details>
+  <summary>Answer</summary>
+
+  At a high level, we need to compare embeddings similarly to the previous question, but we need to pay attention to some implementation details.
+
+  Due to the number of photos, we cannot create an embedding from each photo every time. We should already prepare embeddings beforehand (when adding an actor to the database) and save them in a file. Additionally, we can consider a more efficient way of finding the nearest vector.
+
+</details>
+
+***
+
 ## Overfitting and underfitting
 
 
@@ -356,51 +405,4 @@ Analogy to real life: the student received exam questions from older colleagues.
   <summary>Answer</summary>
 
   Yes. In a real-life scenario, during a patient visit, we can't obtain information about whether the patient will die in six months.
-</details>
-
-## Various applications of Siamese Network architecture
-
-<center><b>Phone face verification</b></center>
-
-<center><ins>Question</ins></center>
-We have trained the model in the Siamese Network architecture so that it would compare facial images with each other. We are implementing a phone login system. At the very beginning, the user is supposed to take a picture of their face. The phone is then supposed to take a picture of the user every time they try to unlock and assess whether they own the phone. How do we implement this?
-
-<details>
-  <summary>Answer</summary>
-
-  For each authorization, we have embeddings of two photos - one taken initially on the phone and the other of the user trying to use the phone. By comparing these two embeddings, we get a similarity score. We need to set a threshold, below which we consider that the person trying to use the phone is indeed its owner.
-  
-</details>
-
-<center><b>Gym customers face recognition</b></center>
-<center><ins>Question</ins></center>
-The gym has 20 clients who frequently lost their badges, asking the owner to adopt a facial recognition system to verify individuals' access. How can this be implemented? We can use the base model from the previous question.
-
-<details>
-  <summary>Answer</summary>
-
-  Do the same as for 'phone face verification', but sequentially for the photo database of all customers. If the customer is recognised, let them in depending on their active membership.
-  
-</details>
-
-<center><b>Best match between actor and historical role</b></center>
-<center><ins>Question</ins></center>
-A maker of a historical film has a photo database of twenty actors. He wants to find one that most resembles the historical figure (of whom he also has a photo). How do you accomplish this task using the architecture of the Siamese Network? We can use the model from the previous questions.
-<details>
-  <summary>Answer</summary>
-
-  We assign a 'similarity score' to each actor's photo relative to the historical figure photo. We sort the values in ascending order and select the actor with the lowest.
-  
-</details>
-
-<center><b>Large actors matching service</b></center>
-
-We are an agency with a database of 100,000 actors. We have a picture of every one of them. We provide the service of finding and hiring the actor most similar to the character from the graphic the client provides. How do you implement such a system? We can use the model from the previous questions.
-<details>
-  <summary>Answer</summary>
-
-  At a high level, we need to compare embeddings similarly to the previous question, but we need to pay attention to some implementation details.
-
-  Due to the number of photos, we cannot create an embedding from each photo every time. We should already prepare embeddings beforehand (when adding an actor to the database) and save them in a file. Additionally, we can consider a more efficient way of finding the nearest vector.
-
 </details>
