@@ -38,3 +38,31 @@ Przeglądających zbiory danych zawsze pamiętajcie, żeby trochę je ręcznie p
 Zbiory danych:
 1. [Fruits-360](https://www.kaggle.com/datasets/moltean/fruits) - bardzo prosty zbiór. Może być dobry na sam początek, żeby ocenić czy nasz model nie zawiera poważnych błędów, czy w ogóle wylicza mniej-więcej to, co powinien.
 2. [Fruit recognition](https://www.kaggle.com/datasets/chrisfilo/fruit-recognition) - nasz główny zbiór. Ponad 40 tysięcy zdjęć owoców na wagach/tacach.
+
+## Etap 3 - przygotowanie narzędzi pomocniczych i uporządkowanie projektu
+W tym momencie macie już dwa działające modele. Przed dalszymi eksperymentami (poprawiającymi jakość predykcji) potrzebujemy:
+- uporządkować kod tak, żeby łatwiej i szybciej implementować kolejne iteracje eksperymentów
+- zaimplementować narzędzia do porównywania ze sobą modeli
+
+### 3.1 Refactoring
+Jupyter Notebooki są świetne na start, lecz dla długoterminowego rozwoju projektu, przeniesienie niektórych fragmentów kodu do plików .py jest niezbędne. Ułatwi to współpracę i wersjonowanie kodu.
+Co na ten moment warto byłoby wyodrębnić? Zostawiam Wam tu elastyczność, ale moje sugestie to:
+1. Narzędzia do ładowania zdjęć do "datasetu". Chcielibyśmy np. mieć funkcję, która na podstawie ścieżki utworzy nam cały ```tf.data.Dataset``` w jednej linijce. Uwzględnijcie, że z czasem będziecie chcieli zmieniać takie parametry jak: ```image_size```, ```batch_size```. Nadal nie określiliśmy, czy będziemy działali z contrastive loss, czy z triplet loss, więc musimy uwzględnić obydwie opcje.
+2. Moduł pomagający w tworzeniu modeli. Na ten moment może być Ci nieco trudno wyobrazić sobie, co ma należeć do generycznego modułu, a co nie. Początkowo możesz założyć, że odpowiednik zmiennej "embedding_network" będziemy chcieli często zmieniać, ale reszta powinna być dość stała (jeszcze wprowadzimy tam pewne poprawki, ale to dobre założenie na start).
+3. Ocena jakości modelu - tutaj pojawią się metody, nad którymi dopiero zaczynacie pracować (punkt 3.2).
+4. Wizualizacja - wyświetlanie zdjęć. W przyszłości warto będzie zaimplementować tutaj też funkcję do wyświetlania źle sklasyfikowanych zdjęć.
+
+Zapewne zauważyliście, że podałem już pewną propozycję podziału dotyczącą nawet tych elementów, których jeszcze nie zaimplementowaliście. Czasami warto utworzyć już puste funkcje, które będą czekały na implementację. Przykład:
+```python
+def show_misclassified_photos(img1, img2):
+    #TODO: implement after tools for models comparison
+    pass
+```
+
+Ułatwi to ustrukturyzowanie całego projektu, ale też znalezienie elementów, nad którymi nadal trzeba popracować. To istotne w szczególności, kiedy pracujemy w grupie. Większość współczesnych IDE ma pewne narzędzia śledzące zadania z komentarzem ```TODO``` - np. PyCharm w lewym-dolnym rogu wyświetla je wszystkie.
+
+### 3.2 Narzędzia do porównywania modeli
+
+Implementując model zawsze powinniśmy zastanawiać się, w jakim realnym scenariuszu biznesowym się znajdzie. Czy jeśli pani położy pietruszkę na kasie, będzie miało dla niej znaczenie, jaką wartość triplet loss model osiągnął na zbiorze testowym? Niekoniecznie :)
+
+W naszym przypadku kasa ma zapisane zdjęcia różnych (np. trzydziestu) produktów spożywczych, a klienta interesuje, czy na ekranie pokaże się (i jak wysoko na liście) położony produkt. Zróbcie między sobą burzę mózgów i zastanówcie się, jak konkretnie miałyby wyglądać potencjalne metryki (może być więcej niż jedna) do tego modelu. Wróćcie do mnie, kiedy wymyślicie konkretne pomysły, lub pewne trudności uniemożliwią Wam znalezienie propozycji. Później zastanowimy się, jak takie metryki zaimplementować. Ostrzegam, że szukanie odpowiednich metryk w internecie (poprzez frazy takie jak "multiclass classification metrics") może niewiele pomóc, a nawet utrudnić - traficie tak na mnóstwo sposobów ewaluacji, które nie są do końca powiązane z naszym projektem.
