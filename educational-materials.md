@@ -66,3 +66,10 @@ Ułatwi to ustrukturyzowanie całego projektu, ale też znalezienie elementów, 
 Implementując model zawsze powinniśmy zastanawiać się, w jakim realnym scenariuszu biznesowym się znajdzie. Czy jeśli pani położy pietruszkę na kasie, będzie miało dla niej znaczenie, jaką wartość triplet loss model osiągnął na zbiorze testowym? Niekoniecznie :)
 
 W naszym przypadku kasa ma zapisane zdjęcia różnych (np. trzydziestu) produktów spożywczych, a klienta interesuje, czy na ekranie pokaże się (i jak wysoko na liście) położony produkt. Zróbcie między sobą burzę mózgów i zastanówcie się, jak konkretnie miałyby wyglądać potencjalne metryki (może być więcej niż jedna) do tego modelu. Wróćcie do mnie, kiedy wymyślicie konkretne pomysły, lub pewne trudności uniemożliwią Wam znalezienie propozycji. Później zastanowimy się, jak takie metryki zaimplementować. Ostrzegam, że szukanie odpowiednich metryk w internecie (poprzez frazy takie jak "multiclass classification metrics") może niewiele pomóc, a nawet utrudnić - traficie tak na mnóstwo sposobów ewaluacji, które nie są do końca powiązane z naszym projektem.
+
+Na zadanie można spojrzeć też z nieco innej perspektywy. Wyobraźmy sobie, że mamy np.:
+1. 15 tysięcy zdjęć ze zbioru testowego (takich, których model wcześniej nie widział) podzielone na 30 klas
+2. Kilka różnych modeli embeddingu (czyli tylko tej części, która z pojedynczego zdjęcia robi jego embedding)
+Zastanówmy się, jak możemy automatycznie porównać te modele, aby wyniki jak najlepiej odzwierciedlały ich potencjalne zastosowanie biznesowe. Ujmując to inaczej - metryki zazwyczaj nie będą idealne, ale chcielibyśmy, żeby wyższy wynik jednego modelu od drugiego powodował, że w realnym scenariuszu również dawał lepsze rezultaty.
+
+Ostatnia uwaga - ta metryka **nie będzie** stosowana poprzez ```model.compile(metrics=...)```. Skupcie się na kodzie, który na podstawie samego ```embedding_network``` i zdjęć zwróci jakąś wartość, którą będziemy mogli porównywać dla różnych modeli.
